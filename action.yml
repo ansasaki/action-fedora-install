@@ -1,0 +1,16 @@
+name: 'Fedora install'
+description: 'Install packages using dnf. Assumes that it is running on a Fedora image'
+inputs:
+  builddep:
+    description: 'Install builddep for the given package'
+    required: false
+  packages:
+    description: 'Packages to install'
+    required: false
+runs:
+  using: "composite"
+  steps:
+    - run: dnf -y update
+    - run: dnf -y install 'dnf-command(builddep)'
+    - run: dnf -y builddep ${{ inputs.builddep }}
+    - run: dnf -y install ${{ inputs.packages }}
