@@ -12,15 +12,5 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - run: |
-           dnf -y update
-      shell: bash
-    - if: ${{ inputs.builddep != '' }}
-      run: |
-           dnf -y install 'dnf-command(builddep)'
-           dnf -y builddep ${{ inputs.builddep }}
-      shell: bash
-    - if: ${{ inputs.packages != '' }}
-      run: |
-           dnf -y install ${{ inputs.packages }}
+    - run: ${{ github.action_path }}/install.sh ${{ inputs.packages }} ${{ inputs.builddep }}
       shell: bash
